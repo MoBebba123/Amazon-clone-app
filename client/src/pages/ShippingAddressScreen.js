@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { saveShippingAddress } from '../actions/cartAction';
 import CheckoutSteps from '../components/CheckoutSteps';
-import Header from '../components/Header/Header';
 
  function ShippingAddressScreen(props) {
   const userSignin = useSelector((state) => state.userSignin);
@@ -28,7 +27,6 @@ import Header from '../components/Header/Header';
   };
   return (
     <div>
-        <Header/>
       <CheckoutSteps step1 step2></CheckoutSteps>
       <form className="form" onSubmit={submitHandler}>
         <div>

@@ -586,6 +586,7 @@ justify-content: space-between;
   .FilterTitle{
     font-size: 20px;
     font-weight: 200;
+    margin-right: 10px;
   }
  
   .FilterSize{
@@ -667,4 +668,22 @@ justify-content: space-between;
   color: white;
   font-weight: 600;
   cursor: pointer;
+}
+.detailsBlock-3-1-1{
+      border: none;
+    background-color: rgba(0, 0, 0, 0.616);
+    padding: 0.5vmax;
+    cursor: pointer;
+    color: white;
+    transition: all 0.5s;
+}
+
+.active{
+  border: 2px solid grey;
+  width: 30px;
+height: 30px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
 }

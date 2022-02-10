@@ -2,7 +2,7 @@ import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import data from '../data.js';
 import Product from '../models/productModel.js';
-import { isAuth,isAdmin } from '../utils.js';
+import { isAuth, isAdmin } from '../utils.js';
 
 const productRouter = express.Router();
 
@@ -13,7 +13,7 @@ productRouter.post(
   expressAsyncHandler(async (req, res) => {
     const product = new Product({
       name: 'Edit the name ' + Date.now(),
-      image:'https://i.ibb.co/9chgr3P/8689305717-6-2-1.webp',
+      image: 'https://i.ibb.co/9chgr3P/8689305717-6-2-1.webp',
       price: 0,
       category: 'sample category',
       brand: 'sample brand',
@@ -31,12 +31,12 @@ productRouter.post(
 //productRouter.post("/",  async (req, res) => {
 //const newProduct = new Product(req.body);
 
-  //try {
-    //const savedProduct = await newProduct.save();
-    //res.status(200).json(savedProduct);
-  //} catch (err) {
-    //res.status(500).json(err);
-  //}
+//try {
+//const savedProduct = await newProduct.save();
+//res.status(200).json(savedProduct);
+//} catch (err) {
+//res.status(500).json(err);
+//}
 //});
 productRouter.put(
   '/:id',
@@ -63,12 +63,18 @@ productRouter.put(
   })
 );
 productRouter.get(
-    '/',
-    expressAsyncHandler(async (req, res) => {
-      const products = await Product.find({});
-      res.send(products);
-    })
-  );
+  '/',
+  expressAsyncHandler(async (req, res) => {
+    const name = req.query.name || '';
+
+    const nameFilter = name ? { name: { $regex: name, $options: 'i' } } : {};
+
+    const products = await Product.find({
+      ...nameFilter,
+    });
+    res.send(products);
+  })
+);
 
 productRouter.get(
   '/seed',
@@ -80,31 +86,39 @@ productRouter.get(
 );
 
 productRouter.get(
-    '/:id',
-    expressAsyncHandler(async (req, res) => {
-      const product = await Product.findById(req.params.id);
-      if (product) {
-        res.send(product);
-      } else {
-        res.status(404).send({ message: 'Product Not Found' });
-      }
-    })
-  );
+  '/:id',
+  expressAsyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    if (product) {
+      res.send(product);
+    } else {
+      res.status(404).send({ message: 'Product Not Found' });
+    }
+  })
+);
 
-  productRouter.delete(
-    '/:id',
-    isAuth,
-    isAdmin,
-    expressAsyncHandler(async (req, res) => {
-      const product = await Product.findById(req.params.id);
-      if (product) {
-        const deleteProduct = await product.remove();
-        res.send({ message: 'Product Deleted', product: deleteProduct });
-      } else {
-        res.status(404).send({ message: 'Product Not Found' });
-      }
-    })
-  );
-  
-  
+productRouter.delete(
+  '/:id',
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id);
+    if (product) {
+      const deleteProduct = await product.remove();
+      res.send({ message: 'Product Deleted', product: deleteProduct });
+    } else {
+      res.status(404).send({ message: 'Product Not Found' });
+    }
+  })
+);
+
+productRouter.get(
+  '/categories',
+  expressAsyncHandler(async (req, res) => {
+    const categories = await Product.find().distinct('category');
+    res.send(categories);
+  })
+);
+
+
 export default productRouter;

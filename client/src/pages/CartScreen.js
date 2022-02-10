@@ -1,118 +1,141 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../actions/cartAction';
-import Header from '../components/Header/Header';
 import MessageBox from '../components/MessageBox';
 
 function CartScreen(props) {
-  const productId = props.match.params.id;
-  const qty = props.location.search
-    ? Number(props.location.search.split('=')[1])
-    : 1;
-    const size =props.location.search;
-    const color =props.location.search;
-    
-    const cart = useSelector(state => state.cart);
-    const {cartItems}= cart;
-  
-    const dispatch = useDispatch();
-    useEffect(() => {
-      if (productId) {
-        dispatch(addToCart(productId, qty,color,size));
-      }
-    }, [dispatch, productId, qty,color,size]);
-    const removeFromCartHandler = (id) => {
-        // delete action
-        dispatch(removeFromCart(id));
 
-      };
-      const checkoutHandler = () => {
-        props.history.push('/signin?redirect=shipping');
-      };
+
+  const cart = useSelector(state => state.cart);
+  const { cartItems } = cart;
+
+  const dispatch = useDispatch();
+  const increaseQuantity = (id, qty, countInStock, color, size) => {
+
+    const quantity = qty + 1;
+    if (countInStock <= qty) {
+      return;
+    }
+    dispatch(addToCart(id, quantity, color, size));
+  };
+
+  const decreaseQuantity = (id, qty, color, size) => {
+
+    const quantity = qty - 1;
+    if (1 >= qty) {
+      return;
+    }
+    dispatch(addToCart(id, quantity, color, size));
+  };
+
+
+  const removeFromCartHandler = (id) => {
+    // delete action
+    dispatch(removeFromCart(id));
+
+  };
+  const checkoutHandler = () => {
+    props.history.push('/signin?redirect=shipping');
+  };
   return (
     <div>
-        <Header/>
-        <div className="row top">
-      <div className="col-2">
-        <h1 style={{paddingLeft:"10px"}}>Shopping Cart</h1>
-        {cartItems.length === 0 ? (
-          <MessageBox>
-            Cart is empty. <Link to="/">Go Shopping</Link>
-          </MessageBox>
-        ) : (
-          <ul>
-            {cartItems.map((item) => (
-              <li key={item.product}>
-                <div className="row">
-                  <div>
-                    <img
-                      src={item.image[0].url}
-                      alt={item.name}
-                      className="small"
-                    ></img>
+      <div className="row top">
+        <div className="col-2">
+          <h1 style={{ paddingLeft: "10px" }}>Shopping Cart</h1>
+          {cartItems.length === 0 ? (
+            <MessageBox>
+              Cart is empty. <Link to="/">Go Shopping</Link>
+            </MessageBox>
+          ) : (
+            <ul>
+              {cartItems.map((item) => (
+                <li key={item.product}>
+                  <div className="row">
+                    <div>
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="small"
+                      ></img>
+                    </div>
+                    <div className="min-30">
+                      <Link to={`/product/${item.product}`}>{item.name}</Link>
+                    </div>
+                    <div>
+                      {item.size}
+                    </div>
+                    <div>
+                      {item.color}
+                    </div>
+
+                    <div>
+                      <button
+                        onClick={() =>
+                          decreaseQuantity(
+                            item.product,
+                            item.qty,
+                            item.color,
+                            item.size
+                          )
+                        }
+                      >
+                        -
+                      </button>
+                      <input type="number" value={item.qty} readOnly />
+                      <button
+                        onClick={() =>
+                          increaseQuantity(
+                            item.product,
+                            item.qty,
+                            item.color,
+                            item.size,
+                          )
+                        }
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    <div>${item.price}</div>
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => removeFromCartHandler(item.product)}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                  <div className="min-30">
-                    <Link to={`/product/${item.product}`}>{item.name}</Link>
-                  </div>
-                  <div>
-                  </div>
-                  <div>
-                    <select
-                      value={item.qty}
-                      onChange={(e) =>
-                        dispatch(
-                          addToCart(item.product, Number(e.target.value))
-                        )
-                      }
-                    >
-                      {[...Array(item.countInStock).keys()].map((x) => (
-                        <option key={x + 1} value={x + 1}>
-                          {x + 1}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-               
-                  <div>${item.price}</div>
-                  <div>
-                    <button
-                      type="button"
-                      onClick={() => removeFromCartHandler(item.product)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <div className="col-1">
+          <div className="card card-body">
+            <ul>
+              <li>
+                <h2>
+                  Subtotal ({cartItems.reduce((a, c) => a + c.qty, 0)} items) : $
+                  {cartItems.reduce((a, c) => a + c.price * c.qty, 0)}
+                </h2>
+
               </li>
-            ))}
-          </ul>
-        )}
-      </div>
-      <div className="col-1">
-        <div className="card card-body">
-          <ul>
-            <li>
-              <h2>
-                Subtotal ({cartItems.reduce((a, c) => a + c.qty, 0)} items) : $
-                {cartItems.reduce((a, c) => a + c.price * c.qty, 0)}
-              </h2>
-            
-            </li>
-            <li>
-              <button
-                type="button"
-                onClick={checkoutHandler}
-                className="primary block"
-                disabled={cartItems.length === 0}
-              >
-                Proceed to Checkout
-              </button>
-            </li>
-          </ul>
+              <li>
+                <button
+                  type="button"
+                  onClick={checkoutHandler}
+                  className="primary block"
+                  disabled={cartItems.length === 0}
+                >
+                  Proceed to Checkout
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }

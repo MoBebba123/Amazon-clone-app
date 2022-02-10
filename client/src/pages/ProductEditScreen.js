@@ -5,7 +5,6 @@ import { detailsProduct, updateProduct } from '../actions/productAction';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
-import Header from '../components/Header/Header';
 
 export default function ProductEditScreen(props) {
   const productId = props.match.params.id;
@@ -98,7 +97,6 @@ export default function ProductEditScreen(props) {
 
   return (
     <div>
-      <Header/>
       <form className="form" onSubmit={submitHandler}>
         <div>
           <h1>Create Product {productId}</h1>

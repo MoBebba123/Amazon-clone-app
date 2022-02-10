@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CheckoutSteps from '../components/CheckoutSteps';
 import {withRouter} from 'react-router-dom'
-import Header from '../components/Header/Header';
 import { createOrder } from '../actions/orderActions';
 import { ORDER_CREATE_RESET } from '../constants/orderConstants';
 import LoadingBox from '../components/LoadingBox';
@@ -36,7 +35,6 @@ function OrderScreen(props) {
   }, [dispatch, order, props.history, success]);
   return (
     <div>
-        <Header/>
       <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
       <div className="row top">
         <div className="col-2">
@@ -67,7 +65,7 @@ function OrderScreen(props) {
                       <div className="row">
                         <div>
                           <img
-                            src={item.image.url}
+                            src={item.image}
                             alt={item.name}
                             className="small"
                           ></img>
@@ -77,7 +75,8 @@ function OrderScreen(props) {
                             {item.name}
                           </Link>
                         </div>
-                      
+                          <div>{item.size}</div>
+                          <div> {item.color} </div>
                         <div>
                           {item.qty} x ${item.price} = ${item.qty * item.price}
                         </div>

@@ -7,7 +7,6 @@ import uploadRouter from './routers/uploadRouter.js';
 import dotenv from 'dotenv';
 import path from 'path';
 
-
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -19,12 +18,19 @@ mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/amazon')
     console.log(err);
   });
 
+cloudinary.config({
+  cloud_name: "dkyyqvbna",
+  api_key: "368228333932484",
+  api_secret: "EaIv9OI8kTcHYA-ksztikEw7J54",
+});
 
 
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
 app.use('/api/products', productRouter);
 app.use('/api/uploads', uploadRouter);
+
+
 
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));

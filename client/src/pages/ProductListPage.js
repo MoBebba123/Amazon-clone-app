@@ -11,8 +11,7 @@ import {
   PRODUCT_CREATE_RESET,
   PRODUCT_DELETE_RESET,
 } from '../constants/productConstants';
-import Header from '../components/Header/Header'
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 function ProductListScreen(props) {
   const productList = useSelector((state) => state.productList);
@@ -55,7 +54,6 @@ function ProductListScreen(props) {
   };
   return (
     <div>
-              <Header/>
 
       <div className="row">
         <h1>Products</h1>
@@ -89,7 +87,11 @@ function ProductListScreen(props) {
           <tbody>
             {products.map((product) => (
               <tr key={product._id}>
+
+               <Link to={`product/${product._id}`}>
+               
                 <td>{product._id}</td>
+               </Link> 
                 <td>{product.name}</td>
                 <td>{product.price}</td>
                 <td>{product.category}</td>

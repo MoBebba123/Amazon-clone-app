@@ -20,7 +20,7 @@ export const isAuth = (req, res, next) => {
     const token = authorization.slice(7, authorization.length); // Bearer XXXXXX
     jwt.verify(
       token,
-      process.env.JWT_SECRET || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWI2YjU5NjQ5MjZiZmYzZjg0NDYyZTQiLCJuYW1lIjoiamFtZWwiLCJlbWFpbCI6ImphbWVsYmViYmExQGdtYWlsLmNvbSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0MTAxMDc4MiwiZXhwIjoxNjQzNjAyNzgyfQ.OMEpZUP12GbcVB8oPn_spp4EYDPIfZvUsrUm2cUNDsQ',
+      process.env.JWT_SECRET || 'something secret',
       (err, decode) => {
         if (err) {
           res.status(401).send({ message: 'Invalid Token' });

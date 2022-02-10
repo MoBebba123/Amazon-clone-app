@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import Header from '../../components/Header/Header'
 import {headerItems} from "../../utils/ProductsData"
 import Banner1 from "../../BannerImages/Banner1.jpg"
 import Banner2 from "../../BannerImages/Banner2.jpg"
@@ -27,7 +26,6 @@ const dispatch = useDispatch();
     const bannerImages =[Banner1,Banner2,Banner3,Banner4,Banner5,Banner6];
     return (
         <div >
-         <Header/> 
          <div className="item-container" >
         {headerItems && headerItems.map((item) => <p>{item}</p>)}
          </div>

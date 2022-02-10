@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { detailsUser, updateUserProfile } from '../actions/userAction';
-import Header from '../components/Header/Header';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
@@ -44,7 +43,6 @@ import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
   };
   return (
     <div>
-      <Header/>
       <form className="form" onSubmit={submitHandler}>
         <div>
           <h1>User Profile</h1>

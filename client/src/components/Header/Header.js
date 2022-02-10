@@ -7,6 +7,7 @@ import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { signout } from '../../actions/userAction';
+import { Badge } from '@mui/material';
 const Header = () => {
 
     
@@ -105,10 +106,10 @@ const Header = () => {
             </div>
             <Link to="/cart">
             <div className="header-basket" style={{paddingRight:"20px"}}>
+            <Badge badgeContent={cartItems.length} max={999} color="secondary">
+
                 <ShoppingCartOutlinedIcon style={{color:"white" ,fontSize:"30px" }}/>
-                {cartItems.length > 0 && (
-                  <span className="badge">{cartItems.length}</span>
-                  )} 
+                  </Badge>
                 </div>
             </Link>
         </nav>

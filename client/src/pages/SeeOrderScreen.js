@@ -7,7 +7,6 @@ import { PayPalButton } from 'react-paypal-button-v2';
 import MessageBox from '../components/MessageBox';
 import { detailsOrder,payOrder  } from '../actions/orderActions';
 import {withRouter} from 'react-router-dom';
-import Header from '../components/Header/Header';
 import { ORDER_PAY_RESET } from '../constants/orderConstants';
 
 function SeeOrderScreen(props) {
@@ -56,7 +55,6 @@ function SeeOrderScreen(props) {
     <MessageBox variant="danger">{error}</MessageBox>
   ) : (
     <div>
-        <Header/>
       <h1 style={{padding:"15px"}}>Order: {order._id}</h1>
       <div className="row top">
         <div className="col-2">
@@ -104,7 +102,7 @@ function SeeOrderScreen(props) {
                       <div className="row">
                         <div>
                           <img
-                            src={item.image[0].url}
+                            src={item.image}
                             alt={item.name}
                             className="small"
                           ></img>
@@ -114,7 +112,8 @@ function SeeOrderScreen(props) {
                             {item.name}
                           </Link>
                         </div>
-
+                        <div>{item.color}</div>
+                        <div>{item.size}</div>
                         <div>
                           {item.qty} x ${item.price} = ${item.qty * item.price}
                         </div>
