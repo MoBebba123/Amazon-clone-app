@@ -1,4 +1,6 @@
 # Amazon Clone App
 
+# Introduction
 
-now i am working on the backend of the website : REST API with MongoDB | Shopping API with Stripe & JWT
+a fully fonctional shop website made with : REST API with MongoDB | Shopping API with Paypal & JWT
+
