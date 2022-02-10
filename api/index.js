@@ -18,11 +18,6 @@ mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/amazon')
     console.log(err);
   });
 
-cloudinary.config({
-  cloud_name: "dkyyqvbna",
-  api_key: "368228333932484",
-  api_secret: "EaIv9OI8kTcHYA-ksztikEw7J54",
-});
 
 
 app.use('/api/users', userRouter);
